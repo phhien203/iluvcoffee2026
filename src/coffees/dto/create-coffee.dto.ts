@@ -2,7 +2,7 @@ import { IsString } from 'class-validator';
 
 export class CreateCoffeeDto {
   @IsString()
-  name: string = '';
+  title: string = '';
 
   @IsString()
   brand: string = '';
