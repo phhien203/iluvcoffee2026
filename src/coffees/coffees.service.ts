@@ -78,13 +78,15 @@ export class CoffeesService {
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
-    const flavor = await this.flavorRepository.findOne({ where: { name } });
+    const flavor = await this.flavorRepository.findOne({
+      where: { title: name },
+    });
 
     if (flavor) {
       return flavor;
     }
 
-    return this.flavorRepository.create({ name });
+    return this.flavorRepository.create({ title: name });
   }
 
   async recommendCoffee(coffee: Coffee) {
