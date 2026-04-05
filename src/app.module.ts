@@ -21,7 +21,7 @@ import { CommonModule } from './common/common.module';
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
       }),
     }),
     ConfigModule.forRoot({
