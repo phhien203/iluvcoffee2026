@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
+RUN npm i -g pnpm
 RUN pnpm install
 
 # Bundle app source
