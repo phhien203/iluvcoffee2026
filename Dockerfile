@@ -8,21 +8,21 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 # COPY pnpm-lock.yaml ./
 # COPY pnpm-workspace.yaml ./
-# COPY prisma ./prisma/
+COPY prisma ./prisma/
 # COPY prisma.config.ts ./
 
 # Install app dependencies
-RUN npm i -g pnpm
-RUN pnpm install
-RUN pnpm approve-builds --all
+# RUN npm i -g pnpm
+RUN npm install
+# RUN pnpm approve-builds --all
 
 # Bundle app source
 COPY . .
 
-RUN pnpm run prisma:generate
+# RUN pnpm run prisma:generate
 
 # Creates a "dist" folder with the production build
-RUN pnpm run build
+RUN npm run build
 
 # Expose the port on which the app will run
 EXPOSE 3000
