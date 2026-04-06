@@ -13,7 +13,7 @@ COPY prisma ./prisma/
 
 # Install app dependencies
 # RUN npm i -g pnpm
-RUN npm install
+RUN npm install --force
 # RUN pnpm approve-builds --all
 
 # Bundle app source
