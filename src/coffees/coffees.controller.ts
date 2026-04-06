@@ -9,14 +9,14 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiForbiddenResponse } from '@nestjs/swagger';
 
-import { Protocol } from 'src/common/decorators/protocol.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { coffeeModel as CoffeeModel } from 'src/generated/prisma/models/coffee';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
-import { ApiForbiddenResponse } from '@nestjs/swagger';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -36,11 +36,8 @@ export class CoffeesController {
   @Public()
   @Get()
   async findAll(
-    @Protocol() protocol: string,
     @Query() paginationQuery: PaginationQueryDto,
-  ) {
-    console.log({ protocol });
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
+  ): Promise<CoffeeModel[]> {
     return this.coffeesService.findAll(paginationQuery);
   }
 

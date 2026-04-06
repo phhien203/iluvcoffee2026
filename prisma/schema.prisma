@@ -1,0 +1,49 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model coffee {
+  id                    Int                     @id(map: "PK_4d27239ee0b99a491ad806aec46") @default(autoincrement())
+  title                 String                  @db.VarChar
+  brand                 String                  @db.VarChar
+  recommendations       Int                     @default(0)
+  coffee_flavors_flavor coffee_flavors_flavor[]
+}
+
+model coffee_flavors_flavor {
+  coffeeId Int
+  flavorId Int
+  flavor   flavor @relation(fields: [flavorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_25642975c6f620d570c635f418d")
+  coffee   coffee @relation(fields: [coffeeId], references: [id], onDelete: Cascade, map: "FK_9cb98a3799afc95cf71fdb1c4f9")
+
+  @@id([coffeeId, flavorId], map: "PK_64cde86968c8b440e3c63626e80")
+  @@index([flavorId], map: "IDX_25642975c6f620d570c635f418")
+  @@index([coffeeId], map: "IDX_9cb98a3799afc95cf71fdb1c4f")
+}
+
+model event {
+  id      Int    @id(map: "PK_30c2f3bbaf6d34a55f8ae6e4614") @default(autoincrement())
+  name    String @db.VarChar
+  type    String @db.VarChar
+  payload Json   @db.Json
+
+  @@index([name], map: "IDX_b535fbe8ec6d832dde22065ebd")
+}
+
+model flavor {
+  id                    Int                     @id(map: "PK_934fe79b3d8131395c29a040ee5") @default(autoincrement())
+  title                 String                  @db.VarChar
+  coffee_flavors_flavor coffee_flavors_flavor[]
+}
+
+model migrations {
+  id        Int    @id(map: "PK_8c82d7f526340ab734260ea46be") @default(autoincrement())
+  timestamp BigInt
+  name      String @db.VarChar
+}

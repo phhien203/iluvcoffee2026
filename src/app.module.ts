@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { CoffeesModule } from './coffees/coffees.module';
 import { CommonModule } from './common/common.module';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
@@ -35,6 +36,6 @@ import { CommonModule } from './common/common.module';
     CoffeeRatingModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}

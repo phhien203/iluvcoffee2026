@@ -1,10 +1,12 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import type { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 
-import type { ConfigType } from '@nestjs/config';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity';
+import { coffeeModel as CoffeeModel } from 'src/generated/prisma/models/coffee';
+import { PrismaService } from 'src/prisma.service';
 import coffeesConfig from './config/coffees.config';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -22,6 +24,7 @@ export class CoffeesService {
     // @Inject(REQUEST) private readonly req: Request,
     @Inject(coffeesConfig.KEY)
     private readonly config: ConfigType<typeof coffeesConfig>,
+    private readonly prisma: PrismaService,
   ) {
     console.log('CoffeeService instantiated', { config: this.config });
   }
@@ -38,11 +41,13 @@ export class CoffeesService {
     return this.coffeeRepository.save(coffee);
   }
 
-  async findAll(paginationQuery: PaginationQueryDto): Promise<Coffee[]> {
-    return this.coffeeRepository.find({
-      relations: { flavors: true },
+  async findAll(paginationQuery: PaginationQueryDto): Promise<CoffeeModel[]> {
+    return this.prisma.coffee.findMany({
       skip: paginationQuery.offset,
       take: paginationQuery.limit,
+      include: {
+        coffee_flavors_flavor: true,
+      },
     });
   }
 

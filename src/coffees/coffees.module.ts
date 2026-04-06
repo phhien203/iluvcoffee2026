@@ -8,6 +8,7 @@ import { CoffeesService } from './coffees.service';
 import coffeesConfig from './config/coffees.config';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { Flavor } from './entities/flavor.entity';
     ConfigModule.forFeature(coffeesConfig),
   ],
   controllers: [CoffeesController],
-  providers: [CoffeesService],
+  providers: [CoffeesService, PrismaService],
   exports: [CoffeesService],
 })
 export class CoffeesModule {}
