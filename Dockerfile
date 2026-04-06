@@ -6,16 +6,18 @@ WORKDIR /usr/src/app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
+COPY prisma ./prisma/
 
 # Install app dependencies
 RUN npm i -g pnpm
 RUN pnpm install
+RUN pnpm run prisma:generate
 
 # Bundle app source
 COPY . .
 
 # Creates a "dist" folder with the production build
-RUN npm run build
+RUN pnpm run build
 
 # Expose the port on which the app will run
 EXPOSE 3000
