@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 COPY prisma ./prisma/
 
 # Install app dependencies
